@@ -34,16 +34,16 @@ export default function LandingPage() {
                 </Link>
               </Button>
             </div>
-             <div className="mt-16">
+             {/* <div className="mt-16">
               <Image
-                src="https://placehold.co/800x400.png"
+                src="https://placehold.co/800x400"
                 alt="Delicious food collage"
                 width={800}
                 height={400}
                 className="rounded-xl shadow-2xl mx-auto"
                 data-ai-hint="food collage"
               />
-            </div>
+            </div> */}
           </div>
         </section>
 
