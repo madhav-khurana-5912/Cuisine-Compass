@@ -1,7 +1,8 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import type { Recipe } from '@/lib/types';
 import { useFavorites } from '@/hooks/use-favorites';
 import RecipeCard from '@/components/recipe-card';
@@ -15,11 +16,20 @@ import {
 import { Button } from '@/components/ui/button';
 import { Star, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 
 export default function FavoritesPage() {
+  const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
   const { favorites, isLoaded: favoritesLoaded } = useFavorites();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/signin?redirect=/favorites');
+    }
+  }, [user, authLoading, router]);
 
   const handleShowRecipe = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -33,7 +43,7 @@ export default function FavoritesPage() {
     }
   };
 
-  if (!favoritesLoaded) {
+  if (authLoading || !favoritesLoaded) {
     return (
       <div className="flex flex-col justify-center items-center min-h-[calc(100vh-200px)] text-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
@@ -41,6 +51,19 @@ export default function FavoritesPage() {
       </div>
     );
   }
+  
+  if (!user) {
+     // This case should ideally be handled by the redirect, but it's a fallback.
+    return (
+      <div className="flex flex-col justify-center items-center min-h-[calc(100vh-200px)] text-center">
+        <p className="text-lg text-muted-foreground">Please sign in to view your favorites.</p>
+        <Button asChild className="mt-4">
+          <Link href="/signin?redirect=/favorites">Sign In</Link>
+        </Button>
+      </div>
+    );
+  }
+
 
   return (
     <div className="space-y-8">
