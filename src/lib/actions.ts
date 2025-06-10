@@ -26,13 +26,11 @@ export async function generateRecipeAction(
     const aiOutput: GenerateRecipeOutput = await callGenerateRecipeFlow(input);
     
     const recipe: Recipe = {
-      // Generate a more robust ID client-side if needed before saving to favorites,
-      // or use recipeName + cuisine for display purposes.
-      // For now, let's use a combination that's somewhat unique for display.
       id: `${aiOutput.recipeName}-${cuisine}-${Date.now()}`, 
       recipeName: aiOutput.recipeName,
       cuisine: cuisine,
       ingredients: aiOutput.ingredients,
+      utensils: aiOutput.utensils,
       instructions: aiOutput.instructions,
       additionalConsiderations: input.additionalConsiderations,
     };

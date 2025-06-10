@@ -23,6 +23,7 @@ export type GenerateRecipeInput = z.infer<typeof GenerateRecipeInputSchema>;
 const GenerateRecipeOutputSchema = z.object({
   recipeName: z.string().describe('The name of the generated recipe.'),
   ingredients: z.array(z.string()).describe('The list of ingredients required for the recipe.'),
+  utensils: z.array(z.string()).describe('The list of utensils needed to prepare the recipe.'),
   instructions: z.string().describe('The step-by-step instructions to prepare the recipe.'),
 });
 export type GenerateRecipeOutput = z.infer<typeof GenerateRecipeOutputSchema>;
@@ -46,6 +47,7 @@ const prompt = ai.definePrompt({
   Please provide the recipe in the following format:
   Recipe Name:
   Ingredients: (List each ingredient with quantity)
+  Utensils: (List all necessary cooking utensils)
   Instructions: (Provide step-by-step instructions)
   `,
 });

@@ -4,5 +4,6 @@ export interface Recipe {
   cuisine: string;
   ingredients: string[];
   instructions: string; // Raw string, potentially newline separated
+  utensils: string[];
   additionalConsiderations?: string;
 }
