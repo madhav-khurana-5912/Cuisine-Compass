@@ -1,9 +1,10 @@
+
 // src/components/layout/header.tsx
 "use client"; 
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ChefHat, Star, LogIn, UserPlus, LogOut } from 'lucide-react';
+import { ChefHat, Star, LogIn, UserPlus, UserCircle, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
 import { auth } from '@/lib/firebaseConfig';
@@ -15,7 +16,9 @@ export default function Header() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const handleSignOut = async () => {
+  // This handleSignOut function is kept here in case we want a quick logout from header in future
+  // but the primary logout button is now on the profile page.
+  const handleQuickSignOut = async () => {
     try {
       await signOut(auth);
       toast({
@@ -49,10 +52,19 @@ export default function Header() {
                   Favorites
                 </Link>
               </Button>
-              <Button variant="ghost" onClick={handleSignOut} className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
+              <Button variant="ghost" asChild className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
+                <Link href="/profile" className="flex items-center gap-1">
+                  <UserCircle size={20} />
+                  Profile
+                </Link>
+              </Button>
+              {/* The Log Out button below is removed as per request to have it in profile page. 
+                  Kept handleQuickSignOut function if a quick header logout is desired later.
+              <Button variant="ghost" onClick={handleQuickSignOut} className="text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground">
                 <LogOut size={20} />
                 Sign Out
               </Button>
+              */}
             </>
           ) : !loading && !user ? (
             <>
