@@ -39,13 +39,23 @@ export default function SignInPage() {
       router.push(redirectUrl);
     } catch (err: any) {
       let friendlyMessage = "Failed to sign in. Please check your credentials.";
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+      
+      if (err.code === 'auth/user-not-found' || 
+          err.code === 'auth/wrong-password' || 
+          err.code === 'auth/invalid-credential') {
         friendlyMessage = "Invalid email or password. Please try again.";
+        // For these common cases, we rely on the user-facing Alert.
+        // No console.error here to prevent unnecessary dev overlay noise.
       } else if (err.code === 'auth/invalid-email') {
         friendlyMessage = "The email address is not valid.";
+        // No console.error here either.
+      } else {
+        // For other, potentially unexpected Firebase errors, log to console.
+        // This helps in debugging less common issues.
+        console.error("Firebase SignIn Error:", err.code, err.message);
+        friendlyMessage = "An unexpected error occurred. Please try again.";
       }
       setError(friendlyMessage);
-      console.error("Firebase SignIn Error:", err.code, err.message);
     } finally {
       setIsLoading(false);
     }
