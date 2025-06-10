@@ -29,7 +29,7 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2 group">
           <ChefHat size={32} className="group-hover:animate-pulse"/>
-          <h1 className="text-2xl font-headline font-bold">Cuisine Compass</h1>
+          <h1 className="text-2xl font-headline font-bold text-black dark:text-white">Cuisine Compass</h1>
         </Link>
         <nav className="flex items-center gap-2">
           {loading ? (
