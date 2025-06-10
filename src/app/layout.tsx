@@ -3,6 +3,7 @@ import Link from 'next/link'; // Import Link
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import Header from '@/components/layout/header';
+import { AuthProvider } from '@/context/AuthContext'; // Import AuthProvider
 
 export const metadata: Metadata = {
   title: 'Cuisine Compass',
@@ -22,11 +23,13 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-grow container mx-auto px-4 py-8">
-          {children}
-        </main>
-        <Toaster />
+        <AuthProvider> {/* Wrap with AuthProvider */}
+          <Header />
+          <main className="flex-grow container mx-auto px-4 py-8">
+            {children}
+          </main>
+          <Toaster />
+        </AuthProvider> {/* Close AuthProvider */}
       </body>
     </html>
   );
