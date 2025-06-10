@@ -24,7 +24,7 @@ export default function LandingPage() {
             </p>
             <div className="space-x-4">
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transform hover:scale-105 transition-transform">
-                <Link href="/generate">
+                <Link href="/signup">
                   <Rocket className="mr-2" /> Get Started
                 </Link>
               </Button>
