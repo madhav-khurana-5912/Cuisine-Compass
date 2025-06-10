@@ -32,10 +32,16 @@ export default function GenerateRecipePage() {
     const result = await generateRecipeAction(cuisine, additionalConsiderations);
 
     setIsLoading(false);
-    if (result.recipe) {
-      setGeneratedRecipe(result.recipe);
-    } else if (result.error) {
-      setError(result.error);
+    if (result) {
+      if (result.recipe) {
+        setGeneratedRecipe(result.recipe);
+      } else if (result.error) {
+        setError(result.error);
+      } else {
+        setError("An unexpected issue occurred. No recipe or error was returned from the generator.");
+      }
+    } else {
+      setError("Failed to get a response from the recipe generator. The result was undefined.");
     }
   };
 

@@ -1,3 +1,4 @@
+
 "use server";
 
 import { generateRecipe as callGenerateRecipeFlow } from '@/ai/flows/enhance-recipe-prompt';
@@ -24,6 +25,11 @@ export async function generateRecipeAction(
 
   try {
     const aiOutput: GenerateRecipeOutput = await callGenerateRecipeFlow(input);
+    
+    if (!aiOutput) {
+      console.error("AI output from callGenerateRecipeFlow was null or undefined.");
+      return { error: "Failed to get a valid structured response from the AI recipe generator." };
+    }
     
     const recipe: Recipe = {
       id: `${aiOutput.recipeName}-${cuisine}-${Date.now()}`, 
