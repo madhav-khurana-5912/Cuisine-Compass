@@ -1,9 +1,10 @@
+
 // src/app/signin/page.tsx
 "use client";
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebaseConfig';
 import { Button } from '@/components/ui/button';
@@ -20,6 +21,7 @@ export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
 
   const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +35,8 @@ export default function SignInPage() {
         title: "Signed In",
         description: "Welcome back!",
       });
-      router.push('/'); // Redirect to homepage or dashboard
+      const redirectUrl = searchParams.get('redirect') || '/';
+      router.push(redirectUrl);
     } catch (err: any) {
       let friendlyMessage = "Failed to sign in. Please check your credentials.";
       if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
@@ -87,6 +90,11 @@ export default function SignInPage() {
                 required
                 className="bg-background border-input focus:ring-accent"
               />
+               <div className="text-right">
+                <Button variant="link" asChild className="p-0 h-auto text-xs text-muted-foreground hover:text-primary">
+                  <Link href="/forgot-password">Forgot Password?</Link>
+                </Button>
+              </div>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
