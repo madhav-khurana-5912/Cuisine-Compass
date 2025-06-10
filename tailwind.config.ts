@@ -11,7 +11,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Roboto', 'sans-serif'],
-        headline: ['Roboto', 'sans-serif'],
+        headline: ['Playfair Display', 'serif'], // Changed for a more 'foodie' feel
         code: ['monospace'],
       },
       colors: {

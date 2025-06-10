@@ -6,8 +6,8 @@ import Header from '@/components/layout/header';
 import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata: Metadata = {
-  title: 'Cuisine Compass',
-  description: 'Generate recipes for any cuisine in the world.',
+  title: 'Cuisine Compass - Your AI Recipe Generator',
+  description: 'Discover and generate unique recipes from any cuisine in the world with AI. Your ultimate cooking companion.',
 };
 
 export default function RootLayout({
@@ -20,12 +20,12 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased min-h-screen flex flex-col">
+      <body className="font-body antialiased min-h-screen flex flex-col bg-background">
         <AuthProvider>
           <Header />
-          <main className="flex-grow container mx-auto px-4 py-8">
+          <main className="flex-grow"> {/* Removed container, px, py for full-width landing page sections */}
             {children}
           </main>
           <Toaster />
