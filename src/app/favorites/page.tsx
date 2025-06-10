@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { Recipe } from '@/lib/types';
 import { useFavorites } from '@/hooks/use-favorites';
 import RecipeCard from '@/components/recipe-card';
@@ -14,22 +14,12 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Star, Loader2 } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link'; // Import Link
+import Link from 'next/link';
 
 export default function FavoritesPage() {
-  const { user, loading: authLoading } = useAuth();
-  const router = useRouter();
-  const { favorites, isLoaded: favoritesLoaded, removeFavorite } = useFavorites(); // Added removeFavorite
+  const { favorites, isLoaded: favoritesLoaded } = useFavorites();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/signin?redirect=/favorites');
-    }
-  }, [user, authLoading, router]);
 
   const handleShowRecipe = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -43,32 +33,14 @@ export default function FavoritesPage() {
     }
   };
 
-  if (authLoading || !favoritesLoaded) {
+  if (!favoritesLoaded) {
     return (
       <div className="flex flex-col justify-center items-center min-h-[calc(100vh-200px)] text-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
         <p className="text-lg text-muted-foreground">Loading favorites...</p>
-        {!user && !authLoading && <p className="text-sm text-muted-foreground mt-2">Checking authentication...</p>}
       </div>
     );
   }
-  
-  if (!user) {
-     // This case should ideally be handled by the redirect, but as a fallback:
-    return (
-      <div className="flex flex-col justify-center items-center min-h-[calc(100vh-200px)] text-center p-6">
-        <Star className="mx-auto h-16 w-16 text-primary mb-6" />
-        <h2 className="text-2xl font-headline font-semibold mb-3">Access Your Favorites</h2>
-        <p className="text-muted-foreground mb-6 max-w-md">
-          Please sign in to view your saved recipes. Your culinary discoveries are waiting for you!
-        </p>
-        <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-          <Link href="/signin?redirect=/favorites">Sign In to View Favorites</Link>
-        </Button>
-      </div>
-    );
-  }
-
 
   return (
     <div className="space-y-8">
