@@ -1,11 +1,37 @@
+
 "use client";
 
+import { useState } from 'react';
+import type { Recipe } from '@/lib/types';
 import { useFavorites } from '@/hooks/use-favorites';
 import RecipeCard from '@/components/recipe-card';
-import { Star } from 'lucide-react';
+import SmallFavoriteCard from '@/components/small-favorite-card';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose // Explicitly import DialogClose if needed for custom close button
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Star, X } from 'lucide-react';
 
 export default function FavoritesPage() {
   const { favorites, isLoaded } = useFavorites();
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleShowRecipe = (recipe: Recipe) => {
+    setSelectedRecipe(recipe);
+    setIsDialogOpen(true);
+  };
+
+  const onDialogChange = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      setSelectedRecipe(null); // Clear selected recipe when dialog closes
+    }
+  };
 
   if (!isLoaded) {
     return (
@@ -28,11 +54,39 @@ export default function FavoritesPage() {
           <p className="text-muted-foreground">Start exploring and mark your favorites!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {favorites.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <SmallFavoriteCard
+              key={recipe.id}
+              recipe={recipe}
+              onShowRecipe={() => handleShowRecipe(recipe)}
+            />
           ))}
         </div>
+      )}
+
+      {selectedRecipe && (
+        <Dialog open={isDialogOpen} onOpenChange={onDialogChange}>
+          <DialogContent className="max-w-2xl w-[90vw] max-h-[90vh] flex flex-col rounded-lg">
+            <DialogHeader className="pr-10"> {/* Add padding for the close button */}
+              <DialogTitle className="font-headline text-2xl text-primary truncate">
+                {selectedRecipe.recipeName}
+              </DialogTitle>
+              {/* The default DialogContent includes an X close button, 
+                  but if you need more control, you can use DialogClose:
+              <DialogClose asChild>
+                <Button variant="ghost" size="icon" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close</span>
+                </Button>
+              </DialogClose>
+              */}
+            </DialogHeader>
+            <div className="overflow-y-auto flex-grow py-4"> {/* Add py-4 for spacing */}
+              <RecipeCard recipe={selectedRecipe} className="shadow-none border-none"/> {/* Remove shadow/border from inner card if desired */}
+            </div>
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );
