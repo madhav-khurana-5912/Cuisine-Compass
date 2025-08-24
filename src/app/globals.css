@@ -36,7 +36,7 @@ body {
     --input: 46 25% 92%; /* Lighter Softer Muted Input Background */
     --ring: 45 65% 60%; /* Softer Primary Golden Yellow for focus rings */
 
-    --radius: 0.8rem;
+    --radius: 2rem;
 
     --chart-1: 12 60% 65%;
     --chart-2: 173 45% 45%;
