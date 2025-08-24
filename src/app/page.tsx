@@ -14,10 +14,12 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="py-20 md:py-32 bg-gradient-to-br from-primary/20 via-background to-background text-center">
           <div className="container mx-auto px-4">
-            <Sparkles className="h-16 w-16 text-accent mx-auto mb-6 animate-pulse" />
-            <h1 className="text-4xl md:text-6xl font-headline font-bold text-primary mb-6">
-              Discover Your Next Culinary Adventure
-            </h1>
+            <div className="flex justify-center items-center gap-4 mb-6">
+              <Sparkles className="h-16 w-16 text-accent animate-pulse" />
+              <h1 className="text-4xl md:text-6xl font-headline font-bold text-primary">
+                Discover Your Next Culinary Adventure
+              </h1>
+            </div>
             <p className="text-lg md:text-xl text-foreground max-w-3xl mx-auto mb-10">
               Cuisine Compass helps you explore global flavors by generating unique recipes tailored to your tastes.
               Enter a cuisine, add your preferences, and let our AI chef inspire you!
