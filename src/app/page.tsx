@@ -15,7 +15,7 @@ export default function LandingPage() {
         <section className="py-20 md:py-32 bg-gradient-to-br from-primary/20 via-background to-background text-center">
           <div className="container mx-auto px-4">
             <div className="flex justify-center items-center gap-4 mb-6">
-              <Sparkles className="h-16 w-16 text-accent animate-pulse" />
+              <Sparkles className="h-16 w-16 text-accent" />
               <h1 className="text-4xl md:text-6xl font-headline font-bold text-primary">
                 Discover Your Next Culinary Adventure
               </h1>
